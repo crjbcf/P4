@@ -3,6 +3,7 @@
 #include "parser.h"
 #include "treePrint.h"
 #include "staticSem.h"
+#include "codeGen.h"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -10,6 +11,7 @@ int main(int argc, char* argv[])
     string filename = "C:/Users/chris/CLionProjects/P4/random.txt";
     int level = 0;
     fstream inputFile;
+    fstream outFile;
 
     inputFile.open(filename);
 //    if (argc > 2)
@@ -63,7 +65,19 @@ int main(int argc, char* argv[])
         node_t* parseTree = parser(inputFile); //needs to be replaced with parser.
         traversePreorder(parseTree, level);
         staticSem(parseTree);
-        printTable();
+
+        //printTable();
+        outFile.open("output.txt", ios:: out);
+        if (outFile)
+        {
+            genCode(parseTree, outFile);
+        }
+        else
+        {
+            cout << "Error creating Assembly Code File";
+        }
+
+
     }
     else
     {
